@@ -1,3 +1,5 @@
+// swift-tools-version:5.4.0
+
 import PackageDescription
 
 let package = Package(
@@ -5,7 +7,7 @@ let package = Package(
     dependencies: [
         .Package(url: "https://github.com/mxcl/PromiseKit.git", majorVersion: 6)
     ],
-    swiftLanguageVersions: [3, 4],
+    swiftLanguageVersions: [3,4,5],
     exclude: [
         "Sources/NSNotificationCenter+AnyPromise.m",
         "Sources/NSTask+AnyPromise.m",
