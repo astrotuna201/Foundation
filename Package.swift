@@ -1,26 +1,36 @@
-// swift-tools-version:5.3
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.0
 
 import PackageDescription
 
-let package = Package(
-    name: "PMKFoundation",
-    dependencies: [
-        .Package(url: "https://github.com/mxcl/PromiseKit.git", majorVersion: 6)
-    ],
-    swiftLanguageVersions: [3,4,5],
-    exclude: [
-        "Sources/NSNotificationCenter+AnyPromise.m",
-        "Sources/NSTask+AnyPromise.m",
-        "Sources/NSURLSession+AnyPromise.m",
-        "Sources/PMKFoundation.h",
-		"Tests"  // currently SwiftPM is not savvy to having a single test…
-    ]
-)
+let pkg = Package(name: "PMKFoundation")
+pkg.products = [
+    .library(name: "PMKFoundation", targets: ["PMKFoundation"]),
+]
+pkg.dependencies = [
+    .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.8.3")
+]
+pkg.swiftLanguageVersions = [.v4, .v4_2, .v5]
+
+let target: Target = .target(name: "PMKFoundation")
+target.path = "Sources"
+target.exclude = ["NSNotificationCenter", "NSTask", "NSURLSession"].flatMap {
+    ["\($0)+AnyPromise.m", "\($0)+AnyPromise.h"]
+}
+target.exclude.append("PMKFoundation.h")
+
+target.dependencies = [
+    "PromiseKit"
+]
 
 #if os(Linux)
-package.exclude += [
-    "Sources/afterlife.swift",
-    "Sources/NSObject+Promise.swift"
+target.exclude += [
+    "afterlife.swift",
+    "NSObject+Promise.swift"
 ]
 #endif
+
+pkg.targets = [target]
+
+pkg.platforms = [
+   .macOS(.v10_10), .iOS(.v8), .tvOS(.v9), .watchOS(.v2)
+]
