@@ -151,12 +151,12 @@ public extension Promise where T == (out: Pipe, err: Pipe) {
     func print() -> Promise<T> {
         return tap { result in
             switch result {
-            case .fulfilled(let raw):
+            case .success(let raw):
                 let stdout = String(data: raw.out.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
                 let stderr = String(data: raw.err.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)
                 Swift.print("stdout: `\(stdout ?? "")`")
                 Swift.print("stderr: `\(stderr ?? "")`")
-            case .rejected(let err):
+            case .failure(let err):
                 Swift.print(err)
             }
         }
