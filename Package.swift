@@ -2,17 +2,17 @@
 
 import PackageDescription
 
-let pkg = Package(name: "PMKFoundation")
+let pkg = Package(name: "PMKFoundationPackage")
 pkg.products = [
-    .library(name: "PMKFoundation", targets: ["PMKFoundation"]),
+    .library(name: "PMKFoundation2", targets: ["PMKFoundation2"]),
 ]
 pkg.dependencies = [
-    .package(url: "https://github.com/mxcl/PromiseKit", ._exactItem("7.0.0-alpha3")),
-    //.package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.8.3")
+    .package(url: "https://github.com/mxcl/PromiseKit", .exactItem("7.0.0-rc2"))
 ]
+
 pkg.swiftLanguageVersions = [.v4, .v4_2, .v5]
 
-let target: Target = .target(name: "PMKFoundation")
+let target: Target = .target(name: "PMKFoundation2")
 target.path = "Sources"
 target.exclude = ["NSNotificationCenter", "NSTask", "NSURLSession"].flatMap {
     ["\($0)+AnyPromise.m", "\($0)+AnyPromise.h"]
